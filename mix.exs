@@ -10,7 +10,13 @@ defmodule Stoned.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      source_url: "https://github.com/thiagoboeker/Desafio-Stone",
+      docs: [
+        source_url_pattern:
+          "https://github.com/thiagoboeker/Desafio-Stone/blob/master/%{path}#L%{line}",
+        output: "docs"
+      ]
     ]
   end
 
