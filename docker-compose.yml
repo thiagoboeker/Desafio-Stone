@@ -1,0 +1,25 @@
+version: "3.3"
+
+services:
+  database:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_DB=stoned_prod
+
+  web:
+    image: stoned-app:0.3
+    restart: always
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    environment:
+      - APP_HOSTNAME=${APP_HOSTNAME}
+      - APP_PORT=${APP_PORT}
+      - PG_USER=${PG_USER}
+      - PG_PASSWORD=${PG_PASSWORD}
+      - PG_HOST=${PG_HOST}
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+    depends_on:
+      - database
