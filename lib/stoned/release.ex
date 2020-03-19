@@ -13,6 +13,7 @@ defmodule Stoned.Release do
 
   @dof false
   def seeds() do
+    Application.load(@app)
     {:ok, _} = Application.ensure_all_started(:ssl)
     Stoned.Seeds.run()
   end
