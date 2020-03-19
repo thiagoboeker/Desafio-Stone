@@ -1,9 +1,8 @@
 defmodule StonedWeb.UserController do
   @moduledoc false
-  
+
   use StonedWeb, :controller
   alias Stoned.DB.UserModel
-  alias StonedWeb.Fallback
   alias Stoned.Banking.AccountAPI
   alias Stoned.DB.Report
   alias Stoned.Backoffice.Report.DataFlow
@@ -29,6 +28,8 @@ defmodule StonedWeb.UserController do
       conn
       |> put_status(:ok)
       |> render("login.json", %{user: user, token: token})
+    else
+      _ -> {:error, :invalid_credentials}
     end
   end
 
@@ -41,6 +42,8 @@ defmodule StonedWeb.UserController do
       |> put_status(:ok)
       |> put_resp_content_type("application/json")
       |> render("user.json", %{user: state})
+    else
+      _ -> {:error, :transfer}
     end
   end
 
@@ -53,6 +56,8 @@ defmodule StonedWeb.UserController do
       |> put_status(:ok)
       |> put_resp_content_type("application/json")
       |> render("user.json", %{user: state})
+    else
+      _ -> {:error, :transfer}
     end
   end
 
@@ -65,15 +70,19 @@ defmodule StonedWeb.UserController do
       |> put_status(:ok)
       |> put_resp_content_type("application/json")
       |> render("user.json", %{user: state})
+    else
+      _ -> {:error, :transfer}
     end
   end
 
-  def backoffice_report(conn, %{"params" => %{"start_date" => start} = params}) do
+  def backoffice_report(conn, %{"params" => %{"start_date" => _start} = params}) do
     with {:ok, report_req} <- Report.changeset(%Report{}, params) do
       payload = Enum.into(DataFlow.start_flow(report_req.start_date), %{})
       conn
       |> put_resp_content_type("application/json")
-      |> send_resp(200, Jason.encode!(payload))
+      |> send_resp(200, Jason.encode!(%{data: payload}))
+    else
+      _ -> {:error, :invalid_params}
     end
   end
 end

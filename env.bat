@@ -1,3 +1,4 @@
+set MIX_ENV=prod
 set APP_PORT=4000
 set APP_HOSTNAME=localhost
 set PG_USER=postgres

@@ -43,7 +43,7 @@ defmodule Stoned.UserControllerTest do
       |> post("/api/deposit", %{"params" => %{"value" => 100}})
       |> json_response(200)
 
-    assert user_deposit["credit"] == 1100.0
+    assert user_deposit["data"]["credit"] == 1100.0
 
     user_withdraw =
       build_conn()
@@ -51,7 +51,7 @@ defmodule Stoned.UserControllerTest do
       |> post("/api/withdraw", %{"params" => %{"value" => 100}})
       |> json_response(200)
 
-    assert user_withdraw["credit"] == 1000.0
+    assert user_withdraw["data"]["credit"] == 1000.0
 
     build_conn()
     |> Generator.put_auth(user["token"])
@@ -75,9 +75,9 @@ defmodule Stoned.UserControllerTest do
 
     {day, month, year} = DataFlow.generate_keys(now)
 
-    assert Map.get(report, day) == 500.0
-    assert Map.get(report, month) == 500.0
-    assert Map.get(report, year) == 500.0
+    assert Map.get(report["data"], day) == 500.0
+    assert Map.get(report["data"], month) == 500.0
+    assert Map.get(report["data"], year) == 500.0
   end
 
   test "Negative Tests" do
@@ -136,7 +136,7 @@ defmodule Stoned.UserControllerTest do
       |> post("/api/deposit", %{"params" => %{"value" => 100}})
       |> json_response(200)
 
-    assert user_deposit["credit"] == 1100.0
+    assert user_deposit["data"]["credit"] == 1100.0
 
     user_withdraw =
       build_conn()
@@ -144,7 +144,7 @@ defmodule Stoned.UserControllerTest do
       |> post("/api/withdraw", %{"params" => %{"value" => 100}})
       |> json_response(200)
 
-    assert user_withdraw["credit"] == 1000.0
+    assert user_withdraw["data"]["credit"] == 1000.0
 
     user_transfer =
       build_conn()
@@ -155,6 +155,6 @@ defmodule Stoned.UserControllerTest do
     {:ok, user2} = UserModel.get(user2["id"])
 
     assert user2.credit == 1300.0
-    assert user_transfer["credit"] == 700.0
+    assert user_transfer["data"]["credit"] == 700.0
   end
 end

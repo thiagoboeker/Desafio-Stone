@@ -1,19 +1,24 @@
 # Stoned
 
-To start your Phoenix server:
+### Docs
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server`
+ExDocs: https://thiagoboeker.github.io/Desafio-Stone/
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Swagger: https://app.swaggerhub.com/apis/thiagoboeker/Stoned-Desafio-Stone/1.0.0
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+## Setup
 
-## Learn more
+To start your local Stoned server:
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+  * Clone this repository
+  * cd to root folder
+  * Check or modify the environment variables in the env.bat and .env files
+  * Run in your terminal `call env.bat` case you're in a windows environment
+  * Run in your terminal `source .env` case you're in a linux environment
+  * Run `docker-compose -f docker-compose.yml up`
+  * Access your docker-machine-ip(in case of Docker Toolbox or localhost if not) on port 4000
+    like *http://host:4000/api/*
+
+## Deployment
+
+The Server is running in heroku: https://stoned-desafio-stone.herokuapp.com

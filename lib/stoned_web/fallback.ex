@@ -15,6 +15,32 @@ defmodule StonedWeb.Fallback do
     )
   end
 
+  def call(conn, {:error, :transfer}) do
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(
+      400,
+      Jason.encode!(%{
+        errors: %{
+          transfer: "TRANSFERENCE ERROR"
+        }
+      })
+    )
+  end
+
+  def call(conn, {:error, :invalid_params}) do
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(
+      400,
+      Jason.encode!(%{
+        errors:  %{
+          parameters: "INVALID PARAMETERS"
+        }
+      })
+    )
+  end
+
   def call(conn, {:error, error}) when is_binary(error) do
     conn
     |> put_resp_content_type("application/json")
