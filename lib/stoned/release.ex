@@ -5,6 +5,7 @@ defmodule Stoned.Release do
   @app :stoned
 
   def migrate() do
+    {:ok, _} = Application.ensure_all_started(:ssl)
     for repo <- repos() do
       {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :up, all: true))
     end
@@ -12,8 +13,7 @@ defmodule Stoned.Release do
 
   @dof false
   def seeds() do
-    Application.load(@app)
-    {:ok, _} = Application.ensure_all_started(@app)
+    {:ok, _} = Application.ensure_all_started(:ssl)
     Stoned.Seeds.run()
   end
 
