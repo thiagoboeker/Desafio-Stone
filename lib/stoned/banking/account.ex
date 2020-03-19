@@ -9,7 +9,7 @@ defmodule Stoned.Banking.Account do
   alias Stoned.DB.UserModel
   alias Stoned.Banking.AccountAPI
   alias Stoned.DB.EventsModel
-
+  require Logger
   @doc false
   def start_link(email) do
     GenServer.start_link(__MODULE__, email, name: {:via, Registry, {Registry.Accounts, email}})
@@ -21,6 +21,15 @@ defmodule Stoned.Banking.Account do
       {:ok, user}
     end
   end
+
+  @doc """
+  Envio de notificacao/email para operacoes.
+  """
+  def send_email("withdraw", value) do
+    Logger.info("Saque efetuado com sucesso -> valor: #{value}")
+  end
+
+  def send_email(_type, _valud), do: :ok
 
   @doc """
   Funcao que opera com o comportamento basico das operacoes
@@ -41,6 +50,7 @@ defmodule Stoned.Banking.Account do
           event_data
           |> Aggregate.mutate_state(state)
           |> UserModel.mutate_state()
+        send_email(type, value)
         {:reply, {:ok, new_state}, new_state}
       error ->
         {:reply, {:error, error}, state}

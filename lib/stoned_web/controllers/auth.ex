@@ -7,12 +7,11 @@ defmodule StonedWeb.AuthController do
   import Plug.Conn
 
   @user_salt Application.fetch_env!(:stoned, :user_salt)
-  @exp 86400
+  @exp 86_400
 
-  def get_token(conn = %Plug.Conn{}) do
-    with ["Bearer " <> token] <- get_req_header(conn, "authorization") do
-      {:ok, token}
-    else
+  def get_token(%Plug.Conn{} = conn) do
+    case get_req_header(conn, "authorization") do
+      ["Bearer " <> token] -> {:ok, token}
       _ -> {:error, :invalid}
     end
   end
@@ -21,7 +20,7 @@ defmodule StonedWeb.AuthController do
     with {:ok, token} <- get_token(conn), # Retira a token do header
          {:ok, %{user_id: user_id}} <-
            Phoenix.Token.verify(StonedWeb.Endpoint, @user_salt, token, max_age: @exp), # Recebe o user_id da token
-         {:ok, %{role: role} = user} <- UserModel.get(user_id) do
+         {:ok, %{role: ^role} = user} <- UserModel.get(user_id) do
       put_private(conn, :auth, %{user: user})
     else
       _ -> Fallback.call(halt(conn), {:error, :invalid_credentials})

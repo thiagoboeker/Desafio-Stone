@@ -3,7 +3,6 @@ defmodule Stoned.Backoffice.Report.DataProducer do
     Produtor Genstage para relatorio
   """
   use GenStage
-  alias Stoned.Repo
   alias Stoned.DB.EventsModel
 
   def start_link(data) do

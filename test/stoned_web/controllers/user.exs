@@ -3,9 +3,6 @@ defmodule Stoned.UserControllerTest do
   alias Stoned.Backoffice.Report.DataFlow
   alias Stoned.TestGenerator, as: Generator
   alias Stoned.DB.UserModel
-  alias Stoned.Banking.AccountAPI
-  alias Stoned.Repo
-  alias Stoned.DB.EventSchema
 
   setup do
     Stoned.Seeds.run()
@@ -36,10 +33,9 @@ defmodule Stoned.UserControllerTest do
       |> post("/api/login", %{"email" => email, "password" => "123123"})
       |> json_response(200)
 
-    user2 =
-      build_conn()
-      |> post("/api/user", %{"params" => param2})
-      |> json_response(201)
+    build_conn()
+    |> post("/api/user", %{"params" => param2})
+    |> json_response(201)
 
     user_deposit =
       build_conn()
@@ -57,11 +53,10 @@ defmodule Stoned.UserControllerTest do
 
     assert user_withdraw["credit"] == 1000.0
 
-    user_transfer =
-      build_conn()
-      |> Generator.put_auth(user["token"])
-      |> post("/api/transfer", %{"params" => %{"value" => 300, "receiver" => email2}})
-      |> json_response(200)
+    build_conn()
+    |> Generator.put_auth(user["token"])
+    |> post("/api/transfer", %{"params" => %{"value" => 300, "receiver" => email2}})
+    |> json_response(200)
 
 
     {:ok, now} = DateTime.now("Etc/UTC")
@@ -92,12 +87,11 @@ defmodule Stoned.UserControllerTest do
     param = Generator.user(email)
     param2 = Generator.user(email2)
 
-    user =
-      build_conn()
-      |> post("/api/user", %{"params" => param})
-      |> recycle()
-      |> post("/api/user", %{"params" => param})
-      |> json_response(400)
+    build_conn()
+    |> post("/api/user", %{"params" => param})
+    |> recycle()
+    |> post("/api/user", %{"params" => param})
+    |> json_response(400)
 
     user2 =
       build_conn()
@@ -106,17 +100,15 @@ defmodule Stoned.UserControllerTest do
       |> post("/api/login", %{"email" => email2, "password" => "123123"})
       |> json_response(200)
 
-    user_withdraw =
-      build_conn()
-      |> Generator.put_auth(user2["token"])
-      |> post("/api/withdraw", %{"params" => %{"value" => 1100}})
-      |> json_response(400)
+    build_conn()
+    |> Generator.put_auth(user2["token"])
+    |> post("/api/withdraw", %{"params" => %{"value" => 1100}})
+    |> json_response(400)
 
-    user_transfer =
-      build_conn()
-      |> Generator.put_auth(user2["token"])
-      |> post("/api/transfer", %{"params" => %{"value" => 1100, "receiver" => email}})
-      |> json_response(400)
+    build_conn()
+    |> Generator.put_auth(user2["token"])
+    |> post("/api/transfer", %{"params" => %{"value" => 1100, "receiver" => email}})
+    |> json_response(400)
   end
 
   test "Deposit and Withdraw" do

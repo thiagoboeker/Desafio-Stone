@@ -1,4 +1,5 @@
 defmodule Stoned.TestGenerator do
+  @moduledoc false
   import Plug.Conn
 
   def user(email \\ "thiago@gmail") do

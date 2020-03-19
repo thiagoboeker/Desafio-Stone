@@ -74,15 +74,15 @@ defmodule Stoned.Banking.Aggregate do
   @doc false
   def generate_event(state, %Command{type: "withdraw"} = command) do
     # Cliente precisa ter um saldo maior que o valor do saque
-    with true <- state.credit - command.value >= 0 do
-      Event.generate(
-        user_id: state.id,
-        value: command.value,
-        type: "withdraw_requested",
-        date: command.date,
-        data: %{}
-      )
-    else
+    case state.credit - command.value >= 0 do
+      true ->
+        Event.generate(
+          user_id: state.id,
+          value: command.value,
+          type: "withdraw_requested",
+          date: command.date,
+          data: %{}
+        )
       _ ->
         Event.generate(
           user_id: state.id,
@@ -97,15 +97,15 @@ defmodule Stoned.Banking.Aggregate do
   @doc false
   def generate_event(state, %Command{type: "transfer"} = command) do
     # Cliente precisa ter um saldo maior do que o valor da transferencia
-    with true <- state.credit - command.value >= 0 do
-      Event.generate(
-        user_id: state.id,
-        value: command.value,
-        type: "transfer_requested",
-        date: command.date,
-        data: %{}
-      )
-    else
+    case state.credit - command.value >= 0 do
+      true ->
+        Event.generate(
+          user_id: state.id,
+          value: command.value,
+          type: "transfer_requested",
+          date: command.date,
+          data: %{}
+        )
       _ ->
         Event.generate(
           user_id: state.id,

@@ -10,7 +10,7 @@ defmodule Stoned.Release do
     end
   end
 
-  @dof false
+  @doc false
   def seeds() do
     Application.load(@app)
     {:ok, _} = Application.ensure_all_started(@app)

@@ -15,7 +15,7 @@ defmodule Stoned.Banking.AccountAPI do
       _ -> DynamicSupervisor.start_child(Stoned.AccountSupervisor, {Account, email})
     end
   end
-  
+
   def start(email) do
     lookup(email)
   end
@@ -36,7 +36,7 @@ defmodule Stoned.Banking.AccountAPI do
     GenServer.cast(pid, {:receive, from, value})
   end
 
-  def transfer(pid, %{value: value, to: email} = payload) do
+  def transfer(pid, %{value: _value, to: _email} = payload) do
     GenServer.call(pid, {:transfer, payload})
   end
 end
