@@ -21,4 +21,4 @@ To start your local Stoned server:
 
 ## Deployment
 
-The Server is running in heroku: https://stoned-desafio-stone.herokuapp.com
+The Server is running on heroku: https://stoned-desafio-stone.herokuapp.com
