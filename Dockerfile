@@ -31,12 +31,10 @@ RUN apk add --update openssl ncurses-libs postgresql-client && \
 
 RUN adduser -D -h /home/app app
 WORKDIR /home/app
+COPY entrypoint.sh .
 COPY --from=app_builder /app/_build .
 RUN chown -R app: ./prod
+RUN chmod +x ./entrypoint.sh
 USER app
-
-COPY entrypoint.sh .
-
-RUN chmod u+r+x ./entrypoint.sh
 
 CMD ["./entrypoint.sh"]
