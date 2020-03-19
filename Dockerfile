@@ -37,4 +37,6 @@ USER app
 
 COPY entrypoint.sh .
 
+RUN chmod u+r+x .entrypoing.sh
+
 CMD ["./entrypoint.sh"]
