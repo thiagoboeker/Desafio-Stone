@@ -2,11 +2,8 @@
 import Config
 
 secret_key_base = System.fetch_env!("SECRET_KEY_BASE")
-port = System.fetch_env!("APP_PORT")
+port = System.fetch_env!("PORT")
 hostname = System.fetch_env!("APP_HOSTNAME")
-pg_user = System.fetch_env!("PG_USER")
-pg_password = System.fetch_env!("PG_PASSWORD")
-pg_host = System.fetch_env!("PG_HOST")
 database_url = System.fetch_env!("DATABASE_URL")
 
 config :stoned, StonedWeb.Endpoint,
