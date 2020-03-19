@@ -8,7 +8,7 @@ database_url = System.fetch_env!("DATABASE_URL")
 
 config :stoned, StonedWeb.Endpoint,
   http: [:inet6, port: String.to_integer(port)],
-  url: [scheme: "https", host: "hostname", port: 443],
+  url: [scheme: "https", host: hostname, port: 443],
   secret_key_base: secret_key_base,
   force_ssl: [rewrite_on: [:x_forwarded_proto]]
 
